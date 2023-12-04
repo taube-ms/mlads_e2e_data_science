@@ -2,18 +2,18 @@ import pandas as pd
 
 
 class DataLoader:
-    """Load data from a file path
+    """A simple data loader class
 
-    Args:
-        file_path (str): Path to the data file
+    Attributes:
+        filepath: The path to the data file
 
-    Returns:
-        pd.DataFrame: Dataframe containing the data
+    Methods:
+        load_data: Loads the data from the file
 
     """
 
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self, filepath):
+        self.filepath = filepath
 
     def load_data(self):
-        return pd.read_csv(self.file_path)
+        return pd.read_csv(self.filepath)

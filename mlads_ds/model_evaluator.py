@@ -1,17 +1,18 @@
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import accuracy_score
 
 
 class ModelEvaluator:
-    """Evaluate the trained model.
+    """Evaluates a model on a test set
 
-    Args:
-        model (sklearn.model): Trained model
-        X_test (pd.DataFrame): Test set
-        y_test (pd.DataFrame): Test labels
+    Attributes:
+        model: A trained model
+        X_test: Test features
+        y_test: Test labels
 
-    Returns:
-        float: Accuracy score
-        str: Classification report"""
+    Methods:
+        evaluate: Evaluates the model on the test set
+
+    """
 
     def __init__(self, model, X_test, y_test):
         self.model = model
@@ -19,11 +20,9 @@ class ModelEvaluator:
         self.y_test = y_test
 
     def evaluate(self):
-        # Predicting the Test set results
-        y_pred = self.model.predict(self.X_test)
+        """Evaluates the model on the test set
 
-        # Creating the evaluation report
-        accuracy = accuracy_score(self.y_test, y_pred)
-        report = classification_report(self.y_test, y_pred)
-
-        return accuracy, report
+        Returns:
+            float: The accuracy of the model on the test set"""
+        predictions = self.model.predict(self.X_test)
+        return accuracy_score(self.y_test, predictions)

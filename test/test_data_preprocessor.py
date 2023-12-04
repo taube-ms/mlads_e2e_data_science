@@ -1,23 +1,29 @@
 import unittest
-from mlads_ds.data_preprocessor import DataPreprocessor
 import pandas as pd
+from mlads_ds.data_preprocessor import (
+    DataPreprocessor,
+)  # assuming this is the class where your preprocess method is
 
 
 class TestDataPreprocessor(unittest.TestCase):
-    def test_preprocess(self):
-        test_data = pd.DataFrame(
+    def setUp(self):
+        self.preprocessor = DataPreprocessor()
+        self.data = pd.DataFrame(
             {
-                "Age": [30, None, 25],
-                "Sex": ["male", "female", "male"],
-                "Embarked": ["S", "C", None],
-                "Cabin": [None, "C123", None],
+                "Name": ["John", "Doe", "Foo"],
+                "Ticket": ["A23", "B45", "C67"],
+                "Cabin": ["C1", "C2", "C3"],
+                "Age": [22, pd.np.nan, 30],
+                "Embarked": ["S", "C", pd.np.nan],
             }
         )
-        preprocessor = DataPreprocessor(test_data)
-        processed_data = preprocessor.preprocess()
-        self.assertFalse(
-            processed_data.isnull().any().any()
-        )  # Check if there are no null values
+        self.preprocessor.data = self.data
+
+    def test_preprocess(self):
+        processed_data = self.preprocessor.preprocess()
+        self.assertNotIn(["Name", "Ticket", "Cabin"], processed_data.columns)
+        self.assertFalse(processed_data["Age"].isnull().any())
+        self.assertFalse(processed_data["Embarked"].isnull().any())
 
 
 if __name__ == "__main__":

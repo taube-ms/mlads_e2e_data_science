@@ -2,29 +2,22 @@ import pandas as pd
 
 
 class DataPreprocessor:
-    """Preprocess the data: handle missing values, encode categorical variables, etc.
+    """A simple data preprocessor class
 
-    Args:
-        data (pd.DataFrame): Dataframe containing the data
+    Attributes:
+        data: The data to preprocess
 
-    Returns:
-        pd.DataFrame: Dataframe containing the preprocessed data
+    Methods:
+        preprocess: Preprocesses the data
+
     """
 
     def __init__(self, data):
         self.data = data
 
     def preprocess(self):
-        # Filling missing values
+        # Basic preprocessing steps
+        self.data = self.data.drop(["Name", "Ticket", "Cabin"], axis=1)
         self.data["Age"].fillna(self.data["Age"].median(), inplace=True)
         self.data["Embarked"].fillna(self.data["Embarked"].mode()[0], inplace=True)
-        self.data.drop(
-            "Cabin", axis=1, inplace=True
-        )  # Dropping the Cabin column due to high missing values
-
-        # Encoding categorical variables
-        self.data = pd.get_dummies(
-            self.data, columns=["Sex", "Embarked"], drop_first=True
-        )
-
         return self.data
